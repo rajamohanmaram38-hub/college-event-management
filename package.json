@@ -1,0 +1,26 @@
+{
+  "name": "college-event-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-Stack College Event Management Portal with separated Client, Server, and Database tiers",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-runner.js",
+    "client": "npm --prefix client run dev",
+    "server": "npm --prefix server run dev",
+    "build": "npm --prefix client run build",
+    "db:setup": "node database/initDb.js",
+    "db:firestore": "npm --prefix server run seed:firestore",
+    "setup": "node database/initDb.js && npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "express",
+    "sqlite",
+    "event-management",
+    "college"
+  ],
+  "author": "",
+  "license": "ISC"
+}
