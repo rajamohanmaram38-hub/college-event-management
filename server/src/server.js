@@ -20,10 +20,28 @@ import { getDatabase } from '../../database/dbConnection.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS setup to allow client access
+// Dynamic CORS setup supporting production Vercel frontend, local dev, and cloud platforms
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.FRONTEND_URL,
+  'http://localhost:5173'
+].filter(Boolean);
+
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: (origin, callback) => {
+    // Allow non-browser requests or any origin dynamically
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0 || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // Allow all vercel deployment subdomains (*.vercel.app)
+    if (origin.endsWith('.vercel.app') || origin.includes('localhost')) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-user-id', 'x-user-role']
 }));
 

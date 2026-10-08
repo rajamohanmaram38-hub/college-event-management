@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: college-event-management-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CLIENT_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        value: college-event-management-d2187
+      - key: FIREBASE_CLIENT_EMAIL
+        value: firebase-adminsdk-fbsvc@college-event-management-d2187.iam.gserviceaccount.com
+      - key: FIREBASE_STORAGE_BUCKET
+        value: college-event-management-d2187.firebasestorage.app

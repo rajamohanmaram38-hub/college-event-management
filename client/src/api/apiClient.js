@@ -1,7 +1,19 @@
 // Centralized API Client for College Event Management Server
 // Connects client frontend to the Express REST API backend
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+// Resolves and normalizes API base url (handles relative "/api", absolute URLs, and strips trailing slashes)
+function getBaseUrl() {
+  let url = (import.meta.env.VITE_API_BASE_URL || '/api').trim();
+  while (url.endsWith('/')) {
+    url = url.slice(0, -1);
+  }
+  if (url.startsWith('http') && !url.endsWith('/api')) {
+    url = `${url}/api`;
+  }
+  return url;
+}
+
+const BASE_URL = getBaseUrl();
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
